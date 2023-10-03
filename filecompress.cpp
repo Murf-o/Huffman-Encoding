@@ -1,5 +1,4 @@
 // Author - Sebastian Barroso
-// NetIDs - sbarr9
 
 #include <string>
 #include <iostream>
@@ -89,6 +88,8 @@ int main(int argc, char **argv)
       fileSelected = input;
       commandTwo = true;
       buildTree(input);
+      // create hiFileMap -- so that we don't need to search through it everytime
+      buildHiMap(input);
       cout << "loaded .hi file" << endl;
     }
 

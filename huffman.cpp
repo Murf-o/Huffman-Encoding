@@ -1,5 +1,4 @@
 // Author - Sebastian Barroso
-// NetID - sbarr9
 
 #include <map>
 #include <unordered_map>
@@ -96,6 +95,29 @@ unordered_map<int, string> buildEncodingMap(HuffmanNode *tree)
   return encodingMap;
 }
 
+// builds hiMap
+// allows us to look for which code corresponds to which letter in O(1) time
+void buildHiMap(string hiFile)
+{
+  hiFileMap.clear();
+  ifstream file(hiFile);
+  stringstream ss;
+  string line; // line read
+  string c;    // letter the code represents
+  string code; // the code for the letter itself
+
+  while (getline(file, line))
+  {
+    ss << line;
+    ss >> c;
+    ss >> code;
+    // map code to letter
+    hiFileMap[code] = c;
+    ss.clear();
+  }
+  return;
+}
+
 // build a .hi file using filename
 void buildHIFile(string filename)
 {
@@ -146,8 +168,7 @@ void buildHIFile(string filename)
       hiFile << i << "    " << endl;
     }
   }
-  // create hiFileMap -- so that we don't need to search through it everytime
-
+  hiFile.close();
   return;
 }
 
@@ -206,6 +227,8 @@ void compress(string filename, string hiFile)
   cout << endl;
 }
 
+// IMPORTANT: ONLY NEEDED WHEN YOU DON'T WANT TO USE A hiFileMap
+// Scans entire .hi File -- current implementation uses map instead
 // find character needed using .hi file
 void findCharHI(string hiFile, string findStr, string &charFound)
 {
@@ -265,11 +288,12 @@ void decompress(string fileName, string hiFile)
   {
     // go through each 'bit' and check if it matches a character in the .hi file!
     bitCode.push_back(code[i]);
-    string charFound;
-    findCharHI(hiFile, bitCode, charFound);
-    // if bitcode matches a character in the .hi file, write that character to the file
-    if (!charFound.empty())
+
+    // findCharHI(hiFile, bitCode, charFound);
+    //  if bitcode matches a character in the .hi file, write that character to the file
+    if (hiFileMap.find(bitCode) != hiFileMap.end())
     {
+      string charFound = hiFileMap[bitCode];
       int num = stoi(charFound);
       char letter = (char)num;
       out << letter;
