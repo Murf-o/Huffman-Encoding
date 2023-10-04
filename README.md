@@ -7,17 +7,18 @@ Lossless Compression via the Huffman Encoding algorithm.
 
  Compressed files have an added ".hc" extension added to the original file name.
 
-To begin, make and execute.
+To begin, make and execute target.
 
 
 Example on how to use:
-
+```
   1 <filename> - create a new Huffman Information file from an original file
   2 <filename> - load a Huffman Information file
   3 <filename> - compress a file using the current Huffman Information file
   4 <filename> - decompress a file using the current Huffman Information file
   5            - quit the program
-  
+```
+  ```
   cmd>  1 somefile.txt
   .hi file built
   cmd> 2 somefile.txt.hi
@@ -30,5 +31,6 @@ Example on how to use:
   cmd> 4 somefile.txt.hc
   decompressed
   cmd> 5
+```
 
   As a note, the decompressed file is stored back into the original file.
